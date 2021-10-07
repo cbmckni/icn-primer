@@ -5,40 +5,14 @@
 # Deployment Settings
 
 Deployment:
-  Name: ndn-k8s-example
-  Image: cbmckni/ndn-tools
+  Name: ndn-k8s-kidney
+  Image: ncbi/sra-tools
   NodeSelector: 
     Enabled: false
     Arg: "kubernetes.io/hostname: epic001.clemson.edu" 
-  Replicas: 10
+  Replicas: 36
   Arg: "
-    rm -rf /workspace/ndn && mkdir -p /workspace/ndn && \
-    apt-get update -y && apt-get install -y git && \
-    git clone --single-branch --branch statefulset https://github.com/cbmckni/ndn-k8s.git /workspace/ndn && \
-    /workspace/ndn/genomics/scripts/sync.sh ndn-k8s-example && \
-    /workspace/ndn/genomics/scripts/delay.sh
-  "
-
-# EXAMPLE PRODUCER: "
-# /workspace/ndn/scripts/boot.sh &&
-# /workspace/ndn/scripts/put.sh /k8s/pub/file /workspace/ndn/samples/1GB
-# "
-
-# EXAMPLE CONSUMER: "
-#    rm -rf /workspace/ndn && mkdir -p /workspace/ndn && \
-#    apt-get update -y && apt-get install -y git && \
-#    git clone --single-branch --branch statefulset https://github.com/cbmckni/ndn-k8s.git /workspace/ndn && \
-#    /workspace/ndn/genomics/scripts/sync.sh ndn-k8s-example && \
-#    /workspace/ndn/genomics/scripts/boot.sh && \
-#    /workspace/ndn/genomics/scripts/route.sh / ndn-k8s-producer-1gb && \
-#    /workspace/ndn/genomics/scripts/cat.sh -n /k8s/1gb -o /workspace/ndn/1GB.test -t /workspace/ndn/1GB.test.time && \
-#    /workspace/ndn/genomics/scripts/delay.sh
-#  "
-
-# EXAMPLE MANUAL: "
-# /workspace/ndn/scripts/boot.sh &&
-# /workspace/ndn/scripts/delay.sh
-# "
+    printf '/LIBS/GUID = "%s"\n' `uuidgen` > /root/.ncbi/user-settings.mkfg && tail -f /dev/null"
 
 
 
@@ -59,13 +33,5 @@ Resources:
 
 PVC:
   StorageClass: rook-cephfs
-  Storage: 5Gi # per pod
-
-# Ingress control settings
-Ingress:
-  Enabled: false
-  # The subdomain to associate with this service.
-  Host: ndnlakev1.nautilus.optiputer.net
-  # The class of the ingress controller to use.
-  Class: traefik
+  Storage: 15Gi # per pod
 
