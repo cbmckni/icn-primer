@@ -18,7 +18,7 @@ Deployment:
 ```
 
 ### Resource Requests
-
+```
 Resources:
   Requests:
     CPU: 1
@@ -26,13 +26,13 @@ Resources:
   Limits:
     CPU: 1
     Memory: 4Gi
-
+```
 ### PVC Template Settings
-
+```
 PVC:
   StorageClass: rook-cephfs-east # valid storageclass
   Storage: 150Gi # per pod
-
+```
 
 ## Deployment
 
