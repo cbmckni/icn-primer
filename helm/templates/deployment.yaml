@@ -30,36 +30,13 @@ spec:
         volumeMounts:
         - name: {{ .Values.Deployment.Name }}-pvc
           mountPath: /workspace
-      {{ if .Values.Deployment.NodeSelector.Enabled }} 
-      nodeSelector:
-        {{ .Values.Deployment.NodeSelector.Arg }}
-      {{ end }}
       restartPolicy: Always
   volumeClaimTemplates:
   - metadata:
-      name: {{ .Values.Deployment.Name }}-pvc
+      name: pvc
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ .Values.PVC.StorageClass }}
       resources:
         requests:
           storage: {{ .Values.PVC.Storage }}
----
-{{ if .Values.Ingress.Enabled }}
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: {{ .Values.Deployment.Name }}
-  annotations:
-    traefik.ingress.kubernetes.io/router.tls: ""
-    kubernetes.io/ingress.class: {{ .Values.Ingress.Class }}
-spec:
-  rules:
-  - host: {{ .Values.Ingress.Host }}
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: {{ .Values.Deployment.Name }}
-          servicePort: 6363
-{{ end }}
