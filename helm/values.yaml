@@ -5,14 +5,10 @@
 # Deployment Settings
 
 Deployment:
-  Name: ndn-k8s-kidney
+  Name: kidney-east
   Image: ncbi/sra-tools
-  NodeSelector: 
-    Enabled: false
-    Arg: "kubernetes.io/hostname: epic001.clemson.edu" 
-  Replicas: 36
-  Arg: "
-    printf '/LIBS/GUID = "%s"\n' `uuidgen` > /root/.ncbi/user-settings.mkfg && tail -f /dev/null"
+  Replicas: 2
+  Arg: "tail -f /dev/null"
 
 
 
@@ -32,6 +28,6 @@ Resources:
 # PVC Template Settings
 
 PVC:
-  StorageClass: rook-cephfs
-  Storage: 15Gi # per pod
+  StorageClass: rook-cephfs-east
+  Storage: 150Gi # per pod
 
