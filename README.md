@@ -1,8 +1,8 @@
-# ICN Primer
+# PVC Data Loader
 
 This is a tool for creating a scalable array of PVCs and populating them with data from a variety of sources(any container that can pull data).
 
-ICN-Primer is designed to be used to prepare ICN VMs for publishing massive datasets on a Kubernetes cluster. A scalable number of primer pods of any image will deploy to load data to newly created PVCs. Primer pods are 1:1 with PVCs created.
+PVC Data Loader is designed to be used to prepare ICN VMs for publishing massive datasets on a Kubernetes cluster. A scalable number of primer pods of any image will deploy to load data to newly created PVCs. Primer pods are 1:1 with PVCs created.
 
 ## Configuration
 
@@ -16,6 +16,8 @@ Deployment:
   Replicas: 5              # number of PVCs/primer pods to be created
   Arg: "tail -f /dev/null" # Entrypoint argument to either idle or start pulling data into /workspace
 ```
+
+**By default, the StatefulSet PVC template will create Read-Write-Once(RWO) PVCs. If your use case requires Read-Write-Many(RWX) PVCs, create them manually(for now) before deploying.**
 
 ### Resource Requests
 ```
@@ -36,7 +38,7 @@ PVC:
 
 ## Deployment
 
-To deploy icn-primer, run `helm install <DEPLOYMENT_NAME> helm/` from the `icn-primer/` directory.
+To deploy PVC Data Loader, run `helm install <DEPLOYMENT_NAME> helm/` from the `pvc-data-loader/` directory.
 
 ## Deletion
 
