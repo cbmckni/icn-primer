@@ -2,7 +2,7 @@
 
 This is a tool for creating a scalable array of PVCs and populating them with data from a variety of sources(any container that can pull data).
 
-PVC Data Loader is designed to be used to prepare ICN VMs for publishing massive datasets on a Kubernetes cluster. A scalable number of primer pods of any image will deploy to load data to newly created PVCs. Primer pods are 1:1 with PVCs created.
+PVC Data Loader is designed to help import data into Persistent Volume Claims. A scalable number of "loader" pods of any image will deploy to load data to newly created PVCs. Any containerized client can be used with this tool.
 
 ## Configuration
 
