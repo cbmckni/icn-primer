@@ -43,5 +43,5 @@ EOF
 
 while IFS= read -r line
 do
-time prefetch $line > out.txt
+time prefetch $line >> out.txt 
 done < SRA_IDs.txt
