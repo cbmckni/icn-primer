@@ -5,10 +5,10 @@
 # Deployment Settings
 
 Deployment:
-  Name: kidney-east
+  Name: kidney-1
   Image: ncbi/sra-tools
   Replicas: 2
-  Arg: "tail -f /dev/null"
+  Arg: "echo 'starting'; if [ -d /workspace/pvc-data-loader ]; then rm -rf /workspace/pvc-data-loader; fi; git clone https://github.com/cbmckni/pvc-data-loader.git /workspace/pvc-data-loader && cd /workspace/pvc-data-loader && time ./scripts/kidney.sh > total.txt; echo 'done'"
 
 
 
@@ -24,10 +24,9 @@ Resources:
     Memory: 4Gi
 
 
-
 # PVC Template Settings
 
 PVC:
-  StorageClass: rook-cephfs-east
+  StorageClass: rook-cephfs
   Storage: 150Gi # per pod
 

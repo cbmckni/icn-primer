@@ -33,7 +33,7 @@ spec:
       restartPolicy: Always
   volumeClaimTemplates:
   - metadata:
-      name: pvc
+      name: {{ .Values.Deployment.Name }}-pvc
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ .Values.PVC.StorageClass }}
