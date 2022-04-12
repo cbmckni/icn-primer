@@ -43,5 +43,5 @@ EOF
 
 while IFS= read -r line
 do
-  fasterq-dump --split-files $line
+  prefetch $line
 done < SRA_IDs.txt
