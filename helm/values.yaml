@@ -5,10 +5,11 @@
 # Deployment Settings
 
 Deployment:
-  Name: kidney-1
+  Name: kidney-2
   Image: ncbi/sra-tools
   Replicas: 2
-  Arg: "echo 'starting'; if [ -d /workspace/pvc-data-loader ]; then rm -rf /workspace/pvc-data-loader; fi; git clone https://github.com/cbmckni/pvc-data-loader.git /workspace/pvc-data-loader && cd /workspace/pvc-data-loader && time ./scripts/kidney.sh > total.txt; echo 'done'"
+  Arg: "
+      apk update && apk upgrade && apk add --no-cache bash git openssh; rm -rf /workspace/pvc-data-loader; cd /workspace; git clone https://github.com/cbmckni/pvc-data-loader.git; chmod +x ./pvc-data-loader/scripts/kidney.sh; ./pvc-data-loader/scripts/kidney.sh 2 /workspace/pvc-data-loader/genomics/sraIDs.txt"
 
 
 

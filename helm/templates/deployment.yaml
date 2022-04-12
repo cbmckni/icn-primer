@@ -28,12 +28,12 @@ spec:
             cpu: {{ .Values.Resources.Limits.CPU }}
             memory: {{ .Values.Resources.Limits.Memory }}
         volumeMounts:
-        - name: {{ .Values.Deployment.Name }}-pvc
+        - name: pvc
           mountPath: /workspace
       restartPolicy: Always
   volumeClaimTemplates:
   - metadata:
-      name: {{ .Values.Deployment.Name }}-pvc
+      name: pvc
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: {{ .Values.PVC.StorageClass }}
