@@ -3,7 +3,7 @@
 NPODS=$1
 INDEX=${HOSTNAME##*-}
 
-mkdir -p /workspace/data && cd /workspace/data
+mkdir -p /workspace/data/ricedata && cd /workspace/data/ricedata
 
 printf '/LIBS/GUID = "%s"\n' `uuidgen` > /root/.ncbi/user-settings.mkfg
 
@@ -486,11 +486,20 @@ SRR2931114
 EOF
 
 
-split -l $((`wc -l < SRA_IDs.txt`/2)) SRA_IDs.txt SRA_IDs.txt.split -a 1
-
 LETTER=$(echo ${INDEX} | tr '[0-9]' '[a-j]')
+
+if [ ${NPODS} -gt 1 ]; then
+  split -l $((`wc -l < SRA_IDs.txt`/${NPODS})) SRA_IDs.txt SRA_IDs.txt.split -a 1
+  SRAFILE=SRA_IDs.txt.split${LETTER}
+else
+  SRAFILE=SRA_IDs.txt
+fi
+
 while IFS= read -r line
 do
-echo ${line} >> times-${INDEX}.txt
-{ time prefetch $line ; } 2>> times-${LETTER}.txt
-done < SRA_IDs.txt.split${LETTER}
+  echo ${line} >> times-${INDEX}.txt
+  if [ ! -d ${line} ] ; then
+    { time prefetch $line ; } 2>> times-${LETTER}.txt
+  fi
+done < ${SRAFILE}
+

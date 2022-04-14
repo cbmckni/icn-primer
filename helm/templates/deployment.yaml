@@ -28,15 +28,23 @@ spec:
             cpu: {{ .Values.Resources.Limits.CPU }}
             memory: {{ .Values.Resources.Limits.Memory }}
         volumeMounts:
-        - name: pvc
-          mountPath: /workspace
+          - name: pvc
+            mountPath: /workspace
       restartPolicy: Always
+{{ if .Values.ExistingRWXPVC.Enabled }}
+      volumes:
+        - name: pvc
+          persistentVolumeClaim:
+            claimName: {{ .Values.ExistingRWXPVC.Name }}
+{{ end }}
+{{ if .Values.PVCTemplates.Enabled }}
   volumeClaimTemplates:
   - metadata:
       name: pvc
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ .Values.PVC.StorageClass }}
+      storageClassName: {{ .Values.PVCTemplates.StorageClass }}
       resources:
         requests:
-          storage: {{ .Values.PVC.Storage }}
+          storage: {{ .Values.PVCTemplates.Storage }}
+{{ end }}

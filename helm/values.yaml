@@ -5,11 +5,11 @@
 # Deployment Settings
 
 Deployment:
-  Name: kidney-2
+  Name: icn-lake-rice
   Image: ncbi/sra-tools
-  Replicas: 2
+  Replicas: 1
   Arg: "
-      apk update && apk upgrade && apk add --no-cache bash git openssh; rm -rf /workspace/pvc-data-loader; cd /workspace; git clone https://github.com/cbmckni/pvc-data-loader.git; chmod +x ./pvc-data-loader/scripts/kidney.sh; ./pvc-data-loader/scripts/kidney.sh 2 /workspace/pvc-data-loader/genomics/sraIDs.txt"
+      apk update && apk upgrade && apk add --no-cache bash git openssh; rm -rf /workspace/pvc-data-loader; cd /workspace; git clone https://github.com/cbmckni/pvc-data-loader.git; chmod +x ./pvc-data-loader/scripts/rice.sh; ./pvc-data-loader/scripts/rice.sh 1"
 
 
 
@@ -24,10 +24,16 @@ Resources:
     CPU: 1
     Memory: 4Gi
 
+# ExistingReadWriteManyPVC Settings
+
+ExistingRWXPVC:
+  Enabled: true
+  Name: pvc-storage-test
 
 # PVC Template Settings
 
-PVC:
-  StorageClass: rook-cephfs
-  Storage: 150Gi # per pod
+PVCTemplates:
+  Enabled: false
+  StorageClass: rook-ceph-block
+  Storage: 750Gi # per pod
 
